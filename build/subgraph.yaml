@@ -1,0 +1,44 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TrdcFactory
+    network: ropsten
+    source:
+      address: "0x96e13d49853eB31b0Cfe1a6b2bb16Fe7bBbEA1d2"
+      abi: TrdcFactory
+      startBlock: 12758704
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - newpool
+      abis:
+        - name: TrdcFactory
+          file: TrdcFactory/abis/TrdcFactory.json
+      eventHandlers:
+        - event: newpool(address)
+          handler: handlenewpool
+      file: TrdcFactory/TrdcFactory.wasm
+templates:
+  - kind: ethereum/contract
+    name: SmartChefInitializable
+    network: ropsten
+    source:
+      abi: SmartChefInitializable
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      file: TrdcFactory/TrdcFactory.wasm
+      entities:
+        - Pool
+        - User
+      abis:
+        - name: SmartChefInitializable
+          file: SmartChefInitializable/abis/SmartChefInitializable.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256)
+          handler: handleDeposit
