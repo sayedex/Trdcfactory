@@ -8,7 +8,6 @@ type facto @entity {
 
 type Pool @entity {
   id: ID!
-  StakeToken:Token!
   Staketoken: Token!
   rewardtoken: Token!
   factoryad:Bytes!

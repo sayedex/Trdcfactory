@@ -1,8 +1,8 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Token } from "../generated/schema";
-import { ERC20 } from "../generated/TrdcFactory/ERC20";
-import { ERC20NameBytes } from "../generated/TrdcFactory/ERC20NameBytes";
-import { ERC20SymbolBytes } from "../generated/TrdcFactory/ERC20SymbolBytes";
+import { ERC20 } from "../generated/templates/SmartChefInitializable/ERC20";
+import { ERC20NameBytes } from "../generated/templates/SmartChefInitializable/ERC20NameBytes";
+import { ERC20SymbolBytes } from "../generated/templates/SmartChefInitializable/ERC20SymbolBytes";
 
 export function isNullBnbValue(value: string): boolean {
   return value == "0x0000000000000000000000000000000000000000000000000000000000000001";
@@ -50,7 +50,7 @@ export function fetchTokenSymbol(tokenAddress: Address): string {
 
 export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   let contract = ERC20.bind(tokenAddress);
-  let decimalValue = null;
+  let decimalValue= 0;
   let decimalResult = contract.try_decimals();
   if (!decimalResult.reverted) {
     decimalValue = decimalResult.value;

@@ -6,8 +6,8 @@ import {
   Deposit,Initialize
 } from "../generated/templates/SmartChefInitializable/SmartChefInitializable"
  import { ERC20 } from "../generated/TrdcFactory/ERC20";
-import { facto,Pool ,User} from "../generated/schema"
-import { getOrCreateToken } from "./erc20";
+import { facto,Pool ,User,Token} from "../generated/schema"
+import {fetchTokenName,fetchTokenSymbol,fetchTokenDecimals} from "./erc20"
 import {
   fetchEndBlock,
   fetchRewardPerBlock,
@@ -51,19 +51,42 @@ export function handlenewpool(event: newpool): void {
   pool.save()
 
 }
+
+ function getOrCreateToken(address: Address): Token {
+  let token = Token.load(address.toHex());
+  if (token) {
+    token = new Token(address.toHex());
+    token.name = fetchTokenName(address);
+    token.symbol = fetchTokenSymbol(address);
+    token.decimals = fetchTokenDecimals(address);
+    token.save();
+  }
+
+
+  return token as Token;
+}
+
+
 export function handleInitialize(event: Initialize): void {
   let id  = event.params.Pooladresss.toHex();
+  // let stake  =event.params._stakedToken.toHex();
+  // let reward  =event.params._rewardToken.toHex();
     let pool = Pool.load(id);
     if (!pool) {
       pool = new Pool(id)
   
     }  
   //  pool.Staketoken = event.params._stakedToken.toHex();
-  // const stakeTokenAddress = fetchStakeToken(event.params._stakedToken);
-  // const rewardTokenAddress  =  fetchRewardToken(event.params._rewardToken);
-
+ 
+  let stakeToken = getOrCreateToken(event.params._stakedToken);
+  let earnToken= getOrCreateToken(event.params._rewardToken);
   // pool.rewardtoken = event.params._rewardToken.toHex();
-  pool.Staketoken = getOrCreateToken(event.params._stakedToken);
+
+  // pool.Staketoken = getOrCreateToken(event.params._stakedToken).id;
+  // pool.rewardtoken = getOrCreateToken(event.params._rewardToken).id;
+
+  pool.Staketoken  = stakeToken.id;
+  pool.rewardtoken = earnToken.id;
    pool.factoryad = event.params.Pooladresss;
    pool.reward = event.params._rewardPerBlock;
    pool.limit = event.params._poolLimitPerUser;
