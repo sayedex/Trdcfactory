@@ -18,6 +18,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "Deposit",
@@ -37,6 +43,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "EmergencyWithdraw",
@@ -47,9 +59,76 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "_stakedToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_rewardToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_rewardPerBlock",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_startBlock",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_bonusEndBlock",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_poolLimitPerUser",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_numberBlocksForUserLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_admin",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
+      }
+    ],
+    "name": "Initialize",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "poolLimitPerUser",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "NewPoolLimit",
@@ -63,6 +142,12 @@
         "internalType": "uint256",
         "name": "rewardPerBlock",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "NewRewardPerBlock",
@@ -82,6 +167,12 @@
         "internalType": "uint256",
         "name": "endBlock",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "NewStartAndEndBlocks",
@@ -114,6 +205,12 @@
         "internalType": "uint256",
         "name": "blockNumber",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "RewardsStop",
@@ -152,6 +249,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "Pooladresss",
+        "type": "address"
       }
     ],
     "name": "Withdraw",
@@ -258,12 +361,12 @@
   {
     "inputs": [
       {
-        "internalType": "contract IERC20Metadata",
+        "internalType": "address",
         "name": "_stakedToken",
         "type": "address"
       },
       {
-        "internalType": "contract IERC20Metadata",
+        "internalType": "address",
         "name": "_rewardToken",
         "type": "address"
       },

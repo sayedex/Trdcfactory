@@ -30,6 +30,10 @@ export class Deposit__Params {
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
 }
 
 export class EmergencyWithdraw extends ethereum.Event {
@@ -52,6 +56,60 @@ export class EmergencyWithdraw__Params {
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+}
+
+export class Initialize extends ethereum.Event {
+  get params(): Initialize__Params {
+    return new Initialize__Params(this);
+  }
+}
+
+export class Initialize__Params {
+  _event: Initialize;
+
+  constructor(event: Initialize) {
+    this._event = event;
+  }
+
+  get _stakedToken(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _rewardToken(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _rewardPerBlock(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get _startBlock(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get _bonusEndBlock(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get _poolLimitPerUser(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get _numberBlocksForUserLimit(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get _admin(): Address {
+    return this._event.parameters[7].value.toAddress();
+  }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[8].value.toAddress();
+  }
 }
 
 export class NewPoolLimit extends ethereum.Event {
@@ -70,6 +128,10 @@ export class NewPoolLimit__Params {
   get poolLimitPerUser(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
 }
 
 export class NewRewardPerBlock extends ethereum.Event {
@@ -87,6 +149,10 @@ export class NewRewardPerBlock__Params {
 
   get rewardPerBlock(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -109,6 +175,10 @@ export class NewStartAndEndBlocks__Params {
 
   get endBlock(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[2].value.toAddress();
   }
 }
 
@@ -149,6 +219,10 @@ export class RewardsStop__Params {
 
   get blockNumber(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -193,6 +267,10 @@ export class Withdraw__Params {
 
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+
+  get Pooladresss(): Address {
+    return this._event.parameters[2].value.toAddress();
   }
 }
 

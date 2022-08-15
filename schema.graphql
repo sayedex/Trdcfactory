@@ -8,10 +8,15 @@ type facto @entity {
 
 type Pool @entity {
   id: ID!
-  Staketoken: Bytes! # address
-  rewardtoken: Bytes! # address
-  users: [User!]! @derivedFrom(field: "pool")
+  Staketoken: Token!
+  rewardtoken: Token!
   factoryad:Bytes!
+  reward: BigInt!
+  limit: BigInt
+  block: BigInt!
+  endBlock: BigInt!
+  timestamp: BigInt!
+  users: [User!]! @derivedFrom(field: "pool")
 }
 
 type User @entity {
@@ -20,4 +25,12 @@ type User @entity {
   address: Bytes!
   pool: Pool!
   stakeAmount: BigInt!
+  staketoken:Token!
+}
+
+type Token @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  decimals: BigInt!
 }
