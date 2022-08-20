@@ -16,6 +16,7 @@ type Pool @entity {
   block: BigInt!
   endBlock: BigInt!
   timestamp: BigInt!
+  Totalstaked:BigInt!
   users: [User!]! @derivedFrom(field: "pool")
 }
 

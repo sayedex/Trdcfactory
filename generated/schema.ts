@@ -76,6 +76,7 @@ export class Pool extends Entity {
     this.set("block", Value.fromBigInt(BigInt.zero()));
     this.set("endBlock", Value.fromBigInt(BigInt.zero()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("Totalstaked", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -181,6 +182,15 @@ export class Pool extends Entity {
 
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get Totalstaked(): BigInt {
+    let value = this.get("Totalstaked");
+    return value!.toBigInt();
+  }
+
+  set Totalstaked(value: BigInt) {
+    this.set("Totalstaked", Value.fromBigInt(value));
   }
 
   get users(): Array<string> {

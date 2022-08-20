@@ -59,3 +59,5 @@ templates:
           handler: handleDeposit
         - event: Initialize(address,address,uint256,uint256,uint256,uint256,uint256,address,address)
           handler: handleInitialize
+        - event: Withdraw(indexed address,uint256,address)
+          handler: handleWithdraw
