@@ -100,7 +100,16 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   return BigInt.fromI32(decimalValue as i32);
 }
 
+export function fetchTokenDecimalsA(tokenAddress: Address): number {
 
+  let contract = ERC20.bind(tokenAddress);
+  let decimalValue = 0;
+  let decimalResult = contract.try_decimals();
+  if (!decimalResult.reverted) {
+    decimalValue = decimalResult.value;
+  }
+  return decimalValue;
+}
 export function getOrCreateToken(address: Address): Token {
   let token = Token.load(address.toHex());
   if (!token) {

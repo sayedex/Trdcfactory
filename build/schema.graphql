@@ -7,6 +7,7 @@ type facto @entity {
 }
 
 type Pool @entity {
+  "Total pool"
   id: ID!
   Staketoken: Token!
   rewardtoken: Token!
@@ -34,4 +35,12 @@ type Token @entity {
   name: String!
   symbol: String!
   decimals: BigInt!
+  Price:BigInt!
+}
+
+
+
+type Toktest @entity{
+  id:ID!
+  price:BigInt!
 }

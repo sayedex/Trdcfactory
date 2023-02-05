@@ -18,12 +18,6 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "Deposit",
@@ -43,12 +37,6 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "EmergencyWithdraw",
@@ -108,7 +96,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "Pooladresss",
+        "name": "_pooladdress",
         "type": "address"
       }
     ],
@@ -123,12 +111,6 @@
         "internalType": "uint256",
         "name": "poolLimitPerUser",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "NewPoolLimit",
@@ -142,12 +124,6 @@
         "internalType": "uint256",
         "name": "rewardPerBlock",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "NewRewardPerBlock",
@@ -167,12 +143,6 @@
         "internalType": "uint256",
         "name": "endBlock",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "NewStartAndEndBlocks",
@@ -205,12 +175,6 @@
         "internalType": "uint256",
         "name": "blockNumber",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "RewardsStop",
@@ -249,12 +213,6 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "Pooladresss",
-        "type": "address"
       }
     ],
     "name": "Withdraw",
@@ -398,6 +356,11 @@
       {
         "internalType": "address",
         "name": "_admin",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_smartChefAddress",
         "type": "address"
       }
     ],

@@ -35,4 +35,12 @@ type Token @entity {
   name: String!
   symbol: String!
   decimals: BigInt!
+  Price:BigInt!
+}
+
+
+
+type Toktest @entity{
+  id:ID!
+  price:BigInt!
 }

@@ -4,17 +4,17 @@ schema:
 dataSources:
   - kind: ethereum
     name: TrdcFactory
-    network: ropsten
+    network: celo
     source:
-      address: "0xa84a6c745cc6482c7e89dfd6d775B761631faF4D"
+      address: "0x3A0b8E10D24c73D3488A76d74D2B013BF3cA15Ef"
       abi: TrdcFactory
-      startBlock: 12758704
+      startBlock: 26963436
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - newpool
+        - NewSmartChefContract
       abis:
         - name: TrdcFactory
           file: ./abis/TrdcFactory.json
@@ -24,14 +24,16 @@ dataSources:
           file: ./abis/ERC20NameBytes.json
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
+        - name: PancakeRouter  
+          file: ./abis/Router.json
       eventHandlers:
-        - event: newpool(address)
+        - event: NewSmartChefContract(indexed address)
           handler: handlenewpool
       file: ./src/mapping.ts
 templates:
   - kind: ethereum/contract
     name: SmartChefInitializable
-    network: ropsten
+    network: celo
     source:
       abi: SmartChefInitializable
     mapping:
@@ -54,10 +56,12 @@ templates:
           file: ./abis/ERC20NameBytes.json
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
+        - name: PancakeRouter  
+          file: ./abis/Router.json
       eventHandlers:
-        - event: Deposit(indexed address,uint256,address)
+        - event: Deposit(indexed address,uint256)
           handler: handleDeposit
         - event :  Initialize(address,address,uint256,uint256,uint256,uint256,uint256,address,address)
           handler: handleInitialize  
-        - event : Withdraw(indexed address,uint256,address)
+        - event : Withdraw(indexed address,uint256)
           handler : handleWithdraw

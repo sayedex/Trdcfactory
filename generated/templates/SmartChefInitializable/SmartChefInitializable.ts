@@ -30,10 +30,6 @@ export class Deposit__Params {
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[2].value.toAddress();
-  }
 }
 
 export class EmergencyWithdraw extends ethereum.Event {
@@ -55,10 +51,6 @@ export class EmergencyWithdraw__Params {
 
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
-  }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[2].value.toAddress();
   }
 }
 
@@ -107,7 +99,7 @@ export class Initialize__Params {
     return this._event.parameters[7].value.toAddress();
   }
 
-  get Pooladresss(): Address {
+  get _pooladdress(): Address {
     return this._event.parameters[8].value.toAddress();
   }
 }
@@ -128,10 +120,6 @@ export class NewPoolLimit__Params {
   get poolLimitPerUser(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
 }
 
 export class NewRewardPerBlock extends ethereum.Event {
@@ -149,10 +137,6 @@ export class NewRewardPerBlock__Params {
 
   get rewardPerBlock(): BigInt {
     return this._event.parameters[0].value.toBigInt();
-  }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -175,10 +159,6 @@ export class NewStartAndEndBlocks__Params {
 
   get endBlock(): BigInt {
     return this._event.parameters[1].value.toBigInt();
-  }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[2].value.toAddress();
   }
 }
 
@@ -219,10 +199,6 @@ export class RewardsStop__Params {
 
   get blockNumber(): BigInt {
     return this._event.parameters[0].value.toBigInt();
-  }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -267,10 +243,6 @@ export class Withdraw__Params {
 
   get amount(): BigInt {
     return this._event.parameters[1].value.toBigInt();
-  }
-
-  get Pooladresss(): Address {
-    return this._event.parameters[2].value.toAddress();
   }
 }
 
@@ -791,6 +763,10 @@ export class InitializeCall__Inputs {
 
   get _admin(): Address {
     return this._call.inputValues[7].value.toAddress();
+  }
+
+  get _smartChefAddress(): Address {
+    return this._call.inputValues[8].value.toAddress();
   }
 }
 

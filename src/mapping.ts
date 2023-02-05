@@ -1,12 +1,14 @@
 import { Address, BigInt ,dataSource} from "@graphprotocol/graph-ts"
+import { ethereum } from '@graphprotocol/graph-ts'
 
-import { TrdcFactory, newpool } from "../generated/TrdcFactory/TrdcFactory"
+
+import { TrdcFactory, NewSmartChefContract } from "../generated/TrdcFactory/TrdcFactory"
 import {SmartChefInitializable} from "../generated/templates"
 import {
   Deposit,Initialize,Withdraw,EmergencyWithdraw,NewStartAndEndBlocks,NewRewardPerBlock
 } from "../generated/templates/SmartChefInitializable/SmartChefInitializable"
  import { ERC20 } from "../generated/TrdcFactory/ERC20";
-import { facto,Pool ,User,Token} from "../generated/schema"
+import { facto,Pool ,User,Token,Toktest} from "../generated/schema"
 import {fetchTokenName,fetchTokenSymbol,fetchTokenDecimals} from "./erc20"
 import {
   fetchEndBlock,
@@ -16,39 +18,22 @@ import {
   fetchStartBlock,
   fetchUserLimit,
   getOrCreateSmartChef,
+
 } from "./utils";
 
 let ZERO_BI = BigInt.fromI32(0);
 let ONE_BI = BigInt.fromI32(1);
-export function handlenewpool(event: newpool): void {
-  let id  = event.params.Pooladresss.toHex();
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
+export function handlenewpool(event: NewSmartChefContract): void {
+  let id  = event.params.smartChef.toHex();
   let factory = facto.load(id);
-  // let pool = Pool.load(id)
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  // if (!pool) {
-  //   pool = new Pool(id)
-
-  // }
   if(!factory){
      factory = new facto(id);
   
   }
-  factory.Factoryaddress = event.params.Pooladresss;
+  factory.Factoryaddress = event.address;
   factory.totalSmartChef = factory.totalSmartChef.plus(ONE_BI)
-  // pool.amount = BigInt.fromI32(0)
-//  pool.Staketoken = event.address;
-//  pool.rewardtoken = event.address;
-//  pool.factoryad = event.params.Pooladresss;
-factory.save()
- SmartChefInitializable.create(event.params.Pooladresss)
-  //pool.create(event.params)
-  // Entities can be written to the store with `.save()`
+ SmartChefInitializable.create(event.params.smartChef)
 
-  // pool.save()
 
 }
 
@@ -98,16 +83,14 @@ export function getOrCreateUser(poolAddress: Address, address: Address): User {
 
 
 export function handleInitialize(event: Initialize): void {
-  let id  = event.params.Pooladresss.toHex();
-  // let stake  =event.params._stakedToken.toHex();
-  // let reward  =event.params._rewardToken.toHex();
+  let id  = event.params._pooladdress.toHex();
+
     let pool = Pool.load(id);
     if (!pool) {
       pool = new Pool(id)
   
     }  
-  //  pool.Staketoken = event.params._stakedToken.toHex();
- 
+
   let stakeToken = getOrCreateToken(event.params._stakedToken);
   let earnToken= getOrCreateToken(event.params._rewardToken);
   // pool.rewardtoken = event.params._rewardToken.toHex();
@@ -117,13 +100,13 @@ export function handleInitialize(event: Initialize): void {
 
   pool.Staketoken  = stakeToken.id;
   pool.rewardtoken = earnToken.id;
-   pool.factoryad = event.params.Pooladresss;
-   pool.reward = event.params._rewardPerBlock;
-   pool.limit = event.params._poolLimitPerUser;
-   pool.endBlock = event.params._bonusEndBlock;
-   pool.timestamp = event.block.timestamp;
-   pool.Totalstaked = ONE_BI;
-   pool.save()
+  pool.factoryad = event.params._pooladdress;
+  pool.reward = event.params._rewardPerBlock;
+  pool.limit = event.params._poolLimitPerUser;
+  pool.endBlock = event.params._bonusEndBlock;
+  pool.timestamp = event.block.timestamp;
+  pool.Totalstaked = ONE_BI;
+  pool.save()
    
   }
 // export function handleDeposita(event: Deposit): void {
@@ -189,3 +172,7 @@ export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
 // //  pool.reward = convertTokenToDecimal(event.params.rewardPerBlock, earnToken.decimals);
 //   pool.save();
 // }
+
+
+
+// token.save()

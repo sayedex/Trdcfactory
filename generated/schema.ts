@@ -284,6 +284,7 @@ export class Token extends Entity {
     this.set("name", Value.fromString(""));
     this.set("symbol", Value.fromString(""));
     this.set("decimals", Value.fromBigInt(BigInt.zero()));
+    this.set("Price", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -336,5 +337,57 @@ export class Token extends Entity {
 
   set decimals(value: BigInt) {
     this.set("decimals", Value.fromBigInt(value));
+  }
+
+  get Price(): BigInt {
+    let value = this.get("Price");
+    return value!.toBigInt();
+  }
+
+  set Price(value: BigInt) {
+    this.set("Price", Value.fromBigInt(value));
+  }
+}
+
+export class Toktest extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("price", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Toktest entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Toktest must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Toktest", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Toktest | null {
+    return changetype<Toktest | null>(store.get("Toktest", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigInt {
+    let value = this.get("price");
+    return value!.toBigInt();
+  }
+
+  set price(value: BigInt) {
+    this.set("price", Value.fromBigInt(value));
   }
 }

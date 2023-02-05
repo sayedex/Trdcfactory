@@ -10,21 +10,43 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class newpool extends ethereum.Event {
-  get params(): newpool__Params {
-    return new newpool__Params(this);
+export class NewSmartChefContract extends ethereum.Event {
+  get params(): NewSmartChefContract__Params {
+    return new NewSmartChefContract__Params(this);
   }
 }
 
-export class newpool__Params {
-  _event: newpool;
+export class NewSmartChefContract__Params {
+  _event: NewSmartChefContract;
 
-  constructor(event: newpool) {
+  constructor(event: NewSmartChefContract) {
     this._event = event;
   }
 
-  get Pooladresss(): Address {
+  get smartChef(): Address {
     return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class OwnershipTransferred extends ethereum.Event {
+  get params(): OwnershipTransferred__Params {
+    return new OwnershipTransferred__Params(this);
+  }
+}
+
+export class OwnershipTransferred__Params {
+  _event: OwnershipTransferred;
+
+  constructor(event: OwnershipTransferred) {
+    this._event = event;
+  }
+
+  get previousOwner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newOwner(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -33,18 +55,50 @@ export class TrdcFactory extends ethereum.SmartContract {
     return new TrdcFactory("TrdcFactory", address);
   }
 
-  poolad(param0: BigInt): Address {
-    let result = super.call("poolad", "poolad(uint256):(address)", [
+  count(): BigInt {
+    let result = super.call("count", "count():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_count(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("count", "count():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  owner(): Address {
+    let result = super.call("owner", "owner():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_owner(): ethereum.CallResult<Address> {
+    let result = super.tryCall("owner", "owner():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  subcontract(param0: BigInt): Address {
+    let result = super.call("subcontract", "subcontract(uint256):(address)", [
       ethereum.Value.fromUnsignedBigInt(param0)
     ]);
 
     return result[0].toAddress();
   }
 
-  try_poolad(param0: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall("poolad", "poolad(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
-    ]);
+  try_subcontract(param0: BigInt): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "subcontract",
+      "subcontract(uint256):(address)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -79,32 +133,116 @@ export class ConstructorCall__Outputs {
   }
 }
 
-export class NewPoolCall extends ethereum.Call {
-  get inputs(): NewPoolCall__Inputs {
-    return new NewPoolCall__Inputs(this);
+export class DeployPoolCall extends ethereum.Call {
+  get inputs(): DeployPoolCall__Inputs {
+    return new DeployPoolCall__Inputs(this);
   }
 
-  get outputs(): NewPoolCall__Outputs {
-    return new NewPoolCall__Outputs(this);
+  get outputs(): DeployPoolCall__Outputs {
+    return new DeployPoolCall__Outputs(this);
   }
 }
 
-export class NewPoolCall__Inputs {
-  _call: NewPoolCall;
+export class DeployPoolCall__Inputs {
+  _call: DeployPoolCall;
 
-  constructor(call: NewPoolCall) {
+  constructor(call: DeployPoolCall) {
     this._call = call;
   }
 
-  get _pool(): Address {
+  get stakedToken(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get rewardToken(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _rewardPerBlock(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _startBlock(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _bonusEndBlock(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get _poolLimitPerUser(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get _numberBlocksForUserLimit(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
+  }
+
+  get _admin(): Address {
+    return this._call.inputValues[7].value.toAddress();
+  }
+}
+
+export class DeployPoolCall__Outputs {
+  _call: DeployPoolCall;
+
+  constructor(call: DeployPoolCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall extends ethereum.Call {
+  get inputs(): RenounceOwnershipCall__Inputs {
+    return new RenounceOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): RenounceOwnershipCall__Outputs {
+    return new RenounceOwnershipCall__Outputs(this);
+  }
+}
+
+export class RenounceOwnershipCall__Inputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class RenounceOwnershipCall__Outputs {
+  _call: RenounceOwnershipCall;
+
+  constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class TransferOwnershipCall extends ethereum.Call {
+  get inputs(): TransferOwnershipCall__Inputs {
+    return new TransferOwnershipCall__Inputs(this);
+  }
+
+  get outputs(): TransferOwnershipCall__Outputs {
+    return new TransferOwnershipCall__Outputs(this);
+  }
+}
+
+export class TransferOwnershipCall__Inputs {
+  _call: TransferOwnershipCall;
+
+  constructor(call: TransferOwnershipCall) {
+    this._call = call;
+  }
+
+  get newOwner(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 }
 
-export class NewPoolCall__Outputs {
-  _call: NewPoolCall;
+export class TransferOwnershipCall__Outputs {
+  _call: TransferOwnershipCall;
 
-  constructor(call: NewPoolCall) {
+  constructor(call: TransferOwnershipCall) {
     this._call = call;
   }
 }
