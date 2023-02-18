@@ -6,6 +6,8 @@ type facto @entity {
   Factoryaddress:Bytes!
 }
 
+
+
 type Pool @entity {
   "Total pool"
   id: ID!
@@ -29,18 +31,29 @@ type User @entity {
   stakeAmount: BigInt!
   staketoken:Token!
 }
+enum OrderType {
+  stake
+  unstake
+  claim
+}
+
+type Transation @entity{
+    id: ID!
+    amount:BigInt!
+    user:Bytes
+    timestamp:BigInt
+    transationType:OrderType,
+    Staketoken: Token!
+    rewardtoken: Token!
+}
+
 
 type Token @entity {
   id: ID!
-  name: String!
-  symbol: String!
-  decimals: BigInt!
-  Price:BigInt!
+  name: String
+  symbol: String
+  decimals: BigInt
 }
 
 
 
-type Toktest @entity{
-  id:ID!
-  price:BigInt!
-}

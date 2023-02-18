@@ -15,28 +15,34 @@ export function isNullBnbValue(value: string): boolean {
 //   let nameValue = "unknown";
 //   let nameResult = contract.try_name();
 //   if (nameResult.reverted) {
-//     let nameResultBytes = contractNameBytes.try_name();
+//    let nameResultBytes = contractNameBytes.try_name();
 //     if (!nameResultBytes.reverted) {
 //       if (!isNullBnbValue(nameResultBytes.value.toHex())) {
 //         nameValue = nameResultBytes.value.toString();
 //       }
-//     }
-//   } else {
+//     }   } else {
 //     nameValue = nameResult.value;
-//   }
+//    }
 
-//   return nameValue;
-// }
+// //   return nameValue;
+// // }
 
 
 export function fetchTokenName(tokenAddress: Address): string {
   let contract = ERC20.bind(tokenAddress);
+  let contractNameBytes = ERC20NameBytes.bind(tokenAddress);
   let nameValue = "unknown";
   let nameResult = contract.try_name();
-  if (!nameResult.reverted) {
-    nameValue = nameResult.value;
-  }
-  return nameValue;
+  if (nameResult.reverted) {
+    let nameResultBytes = contractNameBytes.try_name();
+     if (!nameResultBytes.reverted) {
+       if (!isNullBnbValue(nameResultBytes.value.toHex())) {
+         nameValue = nameResultBytes.value.toString();
+       }
+     }   } else {
+     nameValue = nameResult.value;
+    }
+    return nameValue;
 }
 
 

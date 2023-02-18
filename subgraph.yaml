@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: TrdcFactory
-    network: celo
+    network: bsc
     source:
-      address: "0x3A0b8E10D24c73D3488A76d74D2B013BF3cA15Ef"
+      address: "0xa03ffc3bb0ae0c5cfa060ad697f5c9938abac1f9"
       abi: TrdcFactory
-      startBlock: 26963436
+      startBlock: 25404996
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -24,8 +24,6 @@ dataSources:
           file: ./abis/ERC20NameBytes.json
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
-        - name: PancakeRouter  
-          file: ./abis/Router.json
       eventHandlers:
         - event: NewSmartChefContract(indexed address)
           handler: handlenewpool
@@ -33,7 +31,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: SmartChefInitializable
-    network: celo
+    network: bsc
     source:
       abi: SmartChefInitializable
     mapping:
@@ -56,8 +54,7 @@ templates:
           file: ./abis/ERC20NameBytes.json
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
-        - name: PancakeRouter  
-          file: ./abis/Router.json
+   
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit

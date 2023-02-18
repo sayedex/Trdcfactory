@@ -1,14 +1,13 @@
 import { Address, BigInt ,dataSource} from "@graphprotocol/graph-ts"
 import { ethereum } from '@graphprotocol/graph-ts'
 
-
 import { TrdcFactory, NewSmartChefContract } from "../generated/TrdcFactory/TrdcFactory"
 import {SmartChefInitializable} from "../generated/templates"
 import {
   Deposit,Initialize,Withdraw,EmergencyWithdraw,NewStartAndEndBlocks,NewRewardPerBlock
 } from "../generated/templates/SmartChefInitializable/SmartChefInitializable"
  import { ERC20 } from "../generated/TrdcFactory/ERC20";
-import { facto,Pool ,User,Token,Toktest} from "../generated/schema"
+import { facto,Pool ,User,Token,Transation} from "../generated/schema"
 import {fetchTokenName,fetchTokenSymbol,fetchTokenDecimals} from "./erc20"
 import {
   fetchEndBlock,
@@ -134,7 +133,21 @@ export function handleInitialize(event: Initialize): void {
 export function handleDeposit(event: Deposit): void {
   const user = getOrCreateUser(dataSource.address(), event.params.user);
   const pool = getOrCreateSmartChef(dataSource.address());
-  pool.Totalstaked = pool.Totalstaked.plus(event.params.amount);
+
+  let transaction = new Transation(event.transaction.hash.toHex());
+  if(!transaction){
+    transaction = new Transation(event.transaction.hash.toHex())
+  }
+  transaction.amount = event.params.amount;
+  transaction.timestamp = event.block.timestamp;
+  transaction.user  = event.params.user;
+  transaction.transationType ="stake";
+  transaction.Staketoken= pool.Staketoken;
+  transaction.rewardtoken = pool.rewardtoken;
+  transaction.save();
+
+  // pool.Totalstaked = pool.Totalstaked.plus(event.params.amount);
+  pool.Totalstaked = pool.Totalstaked.plus( BigInt.fromI32(100000));
   user.staketoken = pool.Staketoken;
   user.stakeAmount = user.stakeAmount.plus(event.params.amount);
   pool.save()
@@ -145,6 +158,18 @@ export function handleDeposit(event: Deposit): void {
 export function handleWithdraw(event: Withdraw): void {
   const user = getOrCreateUser(dataSource.address(), event.params.user);
   const pool = getOrCreateSmartChef(dataSource.address());
+  let transaction = new Transation(event.transaction.hash.toHex());
+  if(!transaction){
+    transaction = new Transation(event.transaction.hash.toHex())
+  }
+  transaction.amount = event.params.amount;
+  transaction.timestamp = event.block.timestamp;
+  transaction.user  = event.params.user;
+  transaction.transationType ="unstake";
+  transaction.Staketoken= pool.Staketoken;
+  transaction.rewardtoken = pool.rewardtoken;
+  transaction.save();
+  
   user.stakeAmount = user.stakeAmount.minus(event.params.amount);
   pool.Totalstaked = pool.Totalstaked.minus(event.params.amount);
   pool.save()

@@ -10,6 +10,28 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class Active extends ethereum.Event {
+  get params(): Active__Params {
+    return new Active__Params(this);
+  }
+}
+
+export class Active__Params {
+  _event: Active;
+
+  constructor(event: Active) {
+    this._event = event;
+  }
+
+  get _pooladdress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _active(): boolean {
+    return this._event.parameters[1].value.toBoolean();
+  }
+}
+
 export class Deposit extends ethereum.Event {
   get params(): Deposit__Params {
     return new Deposit__Params(this);
@@ -337,6 +359,21 @@ export class SmartChefInitializable extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  active(): boolean {
+    let result = super.call("active", "active():(bool)", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_active(): ethereum.CallResult<boolean> {
+    let result = super.tryCall("active", "active():(bool)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   bonusEndBlock(): BigInt {
     let result = super.call("bonusEndBlock", "bonusEndBlock():(uint256)", []);
 
@@ -626,6 +663,36 @@ export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
+export class ChangeActiveCall extends ethereum.Call {
+  get inputs(): ChangeActiveCall__Inputs {
+    return new ChangeActiveCall__Inputs(this);
+  }
+
+  get outputs(): ChangeActiveCall__Outputs {
+    return new ChangeActiveCall__Outputs(this);
+  }
+}
+
+export class ChangeActiveCall__Inputs {
+  _call: ChangeActiveCall;
+
+  constructor(call: ChangeActiveCall) {
+    this._call = call;
+  }
+
+  get _active(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
+  }
+}
+
+export class ChangeActiveCall__Outputs {
+  _call: ChangeActiveCall;
+
+  constructor(call: ChangeActiveCall) {
     this._call = call;
   }
 }

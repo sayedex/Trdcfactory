@@ -1,10 +1,10 @@
 {
-  "name": "Trdcfactory",
+  "name": "trdcfactory",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ sayedex/Trdcfactory",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ sayedex/trdcfactory",
     "create-local": "graph create --node http://localhost:8020/ sayedex/Trdcfactory",
     "remove-local": "graph remove --node http://localhost:8020/ sayedex/Trdcfactory",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 sayedex/Trdcfactory"

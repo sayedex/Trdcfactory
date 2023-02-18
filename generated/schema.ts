@@ -276,15 +276,124 @@ export class User extends Entity {
   }
 }
 
-export class Token extends Entity {
+export class Transation extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("name", Value.fromString(""));
-    this.set("symbol", Value.fromString(""));
-    this.set("decimals", Value.fromBigInt(BigInt.zero()));
-    this.set("Price", Value.fromBigInt(BigInt.zero()));
+    this.set("amount", Value.fromBigInt(BigInt.zero()));
+    this.set("Staketoken", Value.fromString(""));
+    this.set("rewardtoken", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Transation entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Transation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Transation", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Transation | null {
+    return changetype<Transation | null>(store.get("Transation", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get user(): Bytes | null {
+    let value = this.get("user");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set user(value: Bytes | null) {
+    if (!value) {
+      this.unset("user");
+    } else {
+      this.set("user", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get timestamp(): BigInt | null {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt | null) {
+    if (!value) {
+      this.unset("timestamp");
+    } else {
+      this.set("timestamp", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get transationType(): string | null {
+    let value = this.get("transationType");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set transationType(value: string | null) {
+    if (!value) {
+      this.unset("transationType");
+    } else {
+      this.set("transationType", Value.fromString(<string>value));
+    }
+  }
+
+  get Staketoken(): string {
+    let value = this.get("Staketoken");
+    return value!.toString();
+  }
+
+  set Staketoken(value: string) {
+    this.set("Staketoken", Value.fromString(value));
+  }
+
+  get rewardtoken(): string {
+    let value = this.get("rewardtoken");
+    return value!.toString();
+  }
+
+  set rewardtoken(value: string) {
+    this.set("rewardtoken", Value.fromString(value));
+  }
+}
+
+export class Token extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -312,82 +421,54 @@ export class Token extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get name(): string {
+  get name(): string | null {
     let value = this.get("name");
-    return value!.toString();
-  }
-
-  set name(value: string) {
-    this.set("name", Value.fromString(value));
-  }
-
-  get symbol(): string {
-    let value = this.get("symbol");
-    return value!.toString();
-  }
-
-  set symbol(value: string) {
-    this.set("symbol", Value.fromString(value));
-  }
-
-  get decimals(): BigInt {
-    let value = this.get("decimals");
-    return value!.toBigInt();
-  }
-
-  set decimals(value: BigInt) {
-    this.set("decimals", Value.fromBigInt(value));
-  }
-
-  get Price(): BigInt {
-    let value = this.get("Price");
-    return value!.toBigInt();
-  }
-
-  set Price(value: BigInt) {
-    this.set("Price", Value.fromBigInt(value));
-  }
-}
-
-export class Toktest extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("price", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Toktest entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Toktest must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Toktest", id.toString(), this);
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
     }
   }
 
-  static load(id: string): Toktest | null {
-    return changetype<Toktest | null>(store.get("Toktest", id));
+  set name(value: string | null) {
+    if (!value) {
+      this.unset("name");
+    } else {
+      this.set("name", Value.fromString(<string>value));
+    }
   }
 
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
+  get symbol(): string | null {
+    let value = this.get("symbol");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set symbol(value: string | null) {
+    if (!value) {
+      this.unset("symbol");
+    } else {
+      this.set("symbol", Value.fromString(<string>value));
+    }
   }
 
-  get price(): BigInt {
-    let value = this.get("price");
-    return value!.toBigInt();
+  get decimals(): BigInt | null {
+    let value = this.get("decimals");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set price(value: BigInt) {
-    this.set("price", Value.fromBigInt(value));
+  set decimals(value: BigInt | null) {
+    if (!value) {
+      this.unset("decimals");
+    } else {
+      this.set("decimals", Value.fromBigInt(<BigInt>value));
+    }
   }
 }
